@@ -29,6 +29,9 @@ public class ClientRepositoryTests {
     public void saveValidClient() {
         Client client = new Client();
         client.setNif("123456789");
+        client.setPhone("123456789");
+        client.setAddress("Sierra de Gredos, Espanha 2748-990");
+        client.setName("Jorge da Fonseca Meireles");
         client = entityManager.persistAndFlush(client);
         //TODO ALL OTHER ATTRIBUTES
         assertEquals(clientRepository.findByNif(client.getNif()).getNif(),client.getNif());
@@ -207,10 +210,18 @@ public class ClientRepositoryTests {
 
     //DELETE CLIENT
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void deleteClient() {
-        //TODO
-        assert false;
+        String correct_nif = "123456789";
+        Client client = new Client();
+        client.setNif(correct_nif);
+        client.setName("Tiago Lopes");
+        entityManager.persistAndFlush(client);
+        Client result = clientRepository.findByNif(correct_nif);
+        assertEquals(result.getNif(),correct_nif );
+        clientRepository.delete(client);
+        result = clientRepository.findByNif(correct_nif);
+        assertEquals(result.getActive(),false);
     }
 
 }

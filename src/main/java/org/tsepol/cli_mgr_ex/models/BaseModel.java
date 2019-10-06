@@ -1,6 +1,7 @@
 package org.tsepol.cli_mgr_ex.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -57,4 +58,5 @@ public abstract class BaseModel implements Serializable {
     public void setActive(Boolean active) {
         is_active = active;
     }
+
 }

@@ -1,5 +1,7 @@
 package org.tsepol.cli_mgr_ex.models;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
@@ -25,7 +27,7 @@ public class Client extends BaseModel {
     private String name;
 
     @Column
-    @Pattern(regexp = "[a-zA-Z\\u00C0-\\u017F\\s0-9%,.]*$")
+    @Pattern(regexp = "^[a-zA-Z\\u00C0-\\u017F\\s0-9%,.\\-]*$")
     private String address;
 
     public String getAddress() {
