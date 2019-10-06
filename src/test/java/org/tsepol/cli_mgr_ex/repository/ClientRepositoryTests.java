@@ -74,7 +74,7 @@ public class ClientRepositoryTests {
         Client client = new Client();
         client.setNif("123456789");
         client.setAddress("Praceta Vasco da Gama, \" \\ \\\\\\root");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         assert false;
     }
 
@@ -84,7 +84,7 @@ public class ClientRepositoryTests {
         Client client = new Client();
         client.setNif("123456789");
         client.setName("Praceta Vasco da Gama\" \\ \\\\\\root");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         assert false;
     }
 
@@ -94,7 +94,7 @@ public class ClientRepositoryTests {
         Client client = new Client();
         client.setNif("123456789");
         client.setName("Vasco da Gama09");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         assert false;
     }
 
@@ -105,8 +105,11 @@ public class ClientRepositoryTests {
         Client client = new Client();
         client.setNif("123456789");
         client.setName("Tiago Lopes");
-        client = entityManager.persistAndFlush(client);
-        client.setNif("123456778");
+        assertEquals(client.getName(),"Tiago Lopes");
+        entityManager.persistAndFlush(client);
+        client.setName("Jorge Lopes");
+        entityManager.persistAndFlush(client);
+        assertEquals(client.getName(),"Jorge Lopes");
     }
 
     @Test
@@ -149,13 +152,13 @@ public class ClientRepositoryTests {
     public void getAllClients() {
         Client client = new Client();
         client.setNif("123456789");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         client = new Client();
         client.setNif("123456788");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         client = new Client();
         client.setNif("123456787");
-        client = entityManager.persistAndFlush(client);
+        entityManager.persistAndFlush(client);
         List<Client> result = clientRepository.findAll();
         assertEquals(result.size(),3);
     }
@@ -206,6 +209,8 @@ public class ClientRepositoryTests {
 
     @Test
     public void deleteClient() {
+        //TODO
+        assert false;
     }
 
 }
