@@ -8,7 +8,6 @@ import org.tsepol.cli_mgr_ex.models.Client;
 import org.tsepol.cli_mgr_ex.repository.ClientRepository;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -29,7 +28,7 @@ public class ClientController {
         if( exact == null || exact ){
             return clientRepository.findClientsContainsName(name);
         }
-        return clientRepository.findClientsWithName(name);
+        return clientRepository.findByName(name);
     }
 
     @GetMapping("/get/{nif}")
@@ -40,16 +39,16 @@ public class ClientController {
     @PostMapping("/add")
     public Client addClient(@RequestParam Boolean upsert, @Valid @RequestBody Client client) {
         //default upsert disabled
-        if( ( upsert == null || !upsert ) && clientRepository.existsById(client.getnif())) {
-            throw new ResourceAlreadyExistsException("Client with NIF "+client.getnif()+" already exists");
+        if( ( upsert == null || !upsert ) && clientRepository.existsById(client.getNif())) {
+            throw new ResourceAlreadyExistsException("Client with NIF "+client.getNif()+" already exists");
         }
         return clientRepository.save(client);
     }
 
     @PutMapping("/update")
     public Client updateClient( @Valid @RequestBody Client client) {
-        if(!clientRepository.existsById(client.getnif())) {
-            throw new ResourceNotFoundException("Client not found with id " + client.getnif());
+        if(!clientRepository.existsById(client.getNif())) {
+            throw new ResourceNotFoundException("Client not found with id " + client.getNif());
         }
         return clientRepository.save(client);
     }

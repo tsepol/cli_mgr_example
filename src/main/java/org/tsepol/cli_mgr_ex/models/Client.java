@@ -1,11 +1,7 @@
 package org.tsepol.cli_mgr_ex.models;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.tsepol.cli_mgr_ex.exceptions.*;
-
 import javax.persistence.*;
-import java.util.regex.Pattern;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "clients")
@@ -16,70 +12,56 @@ public class Client extends BaseModel {
     }
 
     @Id
-    @Column(name = "nif", unique = true, nullable = false, updatable = false)
+    @Column(unique = true, length = 9, nullable = false, updatable = false)
+    @Pattern(regexp = "\\d{9}")
     private String nif;
 
     @Column
-    private Integer phone;
+    @Pattern(regexp = "\\d{9}")
+    private String phone;
 
     @Column
+    @Pattern(regexp = "^[a-zA-Z\\u00C0-\\u017F\\s]*$")
     private String name;
 
     @Column
+    @Pattern(regexp = "[a-zA-Z\\u00C0-\\u017F\\s0-9%,.]*$")
     private String address;
 
     public String getAddress() {
         return address;
     }
 
-    private void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getnif() {
-        return nif;
-    }
-
-    private Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    private void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
-    }
-
-    public Client (String nif, String new_address, Integer phone, String name) throws ModelException {
-        Pattern nine_digit_pattern = Pattern.compile("[0-9]{9}");
-        Pattern name_no_numeric = Pattern.compile("^[a-zA-Z\\u00C0-\\u017F\\s]*$");
-        Pattern address_pattern = Pattern.compile("^[a-zA-Z\\u00C0-\\u017F\\s0-9%,.]*$");
-        if(!address_pattern.matcher(new_address).matches()){
-            throw new InvalidAddressException();
-        }
-        if(!nine_digit_pattern.matcher(nif).matches()){
-            throw new InvalidNIFException();
-        }
-        if(!nine_digit_pattern.matcher(phone.toString()).matches()){
-            throw new InvalidPhoneException();
-        }
-        if(!name_no_numeric.matcher(name).matches()){
-            throw new InvalidNameException();
-        }
-        this.nif = nif;
-        setAddress(new_address);
-        setName(name);
-        setPhone(phone);
     }
 
     @Override
     public String toString() {
-        return getnif() + getPhone() + getName();
+        return getNif() + getPhone() + getName();
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
     }
 }

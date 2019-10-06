@@ -17,6 +17,5 @@ public interface ClientRepository extends JpaRepository<Client, String> {
     @Query("FROM Client WHERE name LIKE CONCAT('%', ?1, '%') AND is_active = true")
     List<Client> findClientsContainsName(String name);
 
-    @Query("FROM Client WHERE name LIKE '?1' AND is_active = true")
-    List<Client> findClientsWithName(String name);
+    List<Client> findByName(String name);
 }
